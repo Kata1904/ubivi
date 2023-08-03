@@ -1,0 +1,82 @@
+<?php 
+
+
+	@include 'config.php';
+
+	if (!$conexion) {
+    die("Error al conectar con la base de datos: " . mysqli_connect_error());
+}
+
+// Verificar si se han enviado los datos del formulario
+
+if (isset($_POST['compania']) && isset($_POST['fecha']) && isset($_POST['h_entrada']) && isset($_POST['h_salida']) && isset($_POST['actividades']) && isset($_POST['vr_trans'])) {
+    // Obtener los datos del formulario
+    $compania = $_POST['compania'];
+    $fecha = $_POST['fecha'];
+    $h_entrada = $_POST['h_entrada'];
+    $h_salida = $_POST['h_salida'];
+    $actividades = $_POST['actividades'];
+    $vr_trans = $_POST['vr_trans'];
+
+    // Insertar los datos en la base de datos
+    $sql = "INSERT INTO actividades (compania, fecha, h_entrada, h_salida, actividades, vr_trans) VALUES ('$compania', '$fecha', '$h_entrada', '$h_salida', '$actividades', '$vr_trans')";
+
+    if (mysqli_query($conexion, $sql)) {
+       // echo "Datos insertados correctamente";
+    } else {
+        echo "Error al insertar datos: " . mysqli_error($conexion);
+    }
+} else {
+    echo "Por favor, complete todos los campos del formulario.";
+}
+
+// Cerrar la conexión
+mysqli_close($conexion);
+	
+
+
+?>
+
+
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Informes</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	
+	
+	<div id="main-container">
+
+	
+
+	<form method="post">
+		
+		<center><img src="img/logo.png" ></center>
+				
+					
+												<select name="compania" id="compania">
+												<option value="ACEROS JM">ACEROS JM</option>
+												<option value="BIKAR">BIKAR</option>
+												<option value="EAVERTECH">EAVERTECH</option>
+												<option value="FIBRIT">FIBIRT</option>
+												<option value="KENKO">KENKO</option>
+												<option value="MARQUEZ ABOGADOS">MARQUEZ ABOGADOS</option>
+												</select>
+									
+				
+				<input type="date" name="fecha" min="2023-01-01">
+					<input type="time" name="h_entrada"><input type="time" name="h_salida">
+		
+					<input type="text" id="actividades" name="actividades" placeholder="Actividades">
+
+					<input type="text" id="vr_trans" name="vr_trans" placeholder="Valor transportes">
+	
+			 <input type="submit" name="submit" value="Enviar">
+
+	</form>
+						
+	</div>
+</body>
+</html>
